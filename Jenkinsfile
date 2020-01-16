@@ -11,6 +11,23 @@ pipeline{
 	    	sh 'mvn -B -DskipTests clean package'
 	    }
 	}
+	
+	stage('test'){
+	    steps{
+	    	sh 'mvn test'
+	    }
+	    post{
+	     	always{
+		    junit 'target/surefire-reports/*.xnml'
+		}
+	    }
+	}
+	stage('Deliver'){
+	    steps{
+	    	sh './jenkins/scripts/deliver.sh'
+	    }
+	}
     }
+
 
 }
